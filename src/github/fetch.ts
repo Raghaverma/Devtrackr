@@ -8,7 +8,9 @@ import {
   DevTrackrAuthError,
   DevTrackrRateLimitError,
   DevTrackrNetworkError,
+  DevTrackrErrorCode,
 } from '../errors';
+import { updateRateLimitInfo } from '../utils/rateLimit';
 
 export interface FetchOptions {
   token: string;
@@ -74,16 +76,36 @@ export async function githubFetch<T>(options: FetchOptions): Promise<T> {
     response = await fetch(url, requestInit);
   } catch (error) {
     if (error instanceof Error) {
-      throw new DevTrackrNetworkError(`Network error: ${error.message}`);
+      throw new DevTrackrNetworkError(
+        `Network error: ${error.message}`,
+        DevTrackrErrorCode.NETWORK_ERROR,
+        true // Network errors are retryable
+      );
     }
-    throw new DevTrackrNetworkError('Network request failed');
+    throw new DevTrackrNetworkError(
+      'Network request failed',
+      DevTrackrErrorCode.NETWORK_ERROR,
+      true
+    );
   }
 
   const rateLimitHeaders = parseRateLimitHeaders(response.headers);
 
+  // Update rate limit tracking
+  if (rateLimitHeaders) {
+    updateRateLimitInfo(
+      rateLimitHeaders.limit,
+      rateLimitHeaders.remaining,
+      rateLimitHeaders.reset
+    );
+  }
+
   // Handle authentication errors (401)
   if (response.status === 401) {
-    throw new DevTrackrAuthError('Invalid or expired GitHub token');
+    throw new DevTrackrAuthError(
+      'Invalid or expired GitHub token. Please check your token and ensure it has not been revoked.',
+      DevTrackrErrorCode.AUTH_INVALID_TOKEN
+    );
   }
 
   // Handle rate limit errors (403 with rate limit headers)
@@ -99,12 +121,18 @@ export async function githubFetch<T>(options: FetchOptions): Promise<T> {
 
   // Handle other 403 errors
   if (response.status === 403) {
-    throw new DevTrackrAuthError('Access forbidden. Check token permissions.');
+    throw new DevTrackrAuthError(
+      'Access forbidden. Check token permissions and ensure required scopes are granted.',
+      DevTrackrErrorCode.AUTH_INSUFFICIENT_SCOPES
+    );
   }
 
   // Handle other errors
   if (!response.ok) {
     let errorMessage = `GitHub API error: ${response.status} ${response.statusText}`;
+    let errorCode = DevTrackrErrorCode.API_ERROR;
+    let retryable = response.status >= 500; // Retry on server errors
+
     try {
       const errorBody = await response.json() as { message?: string };
       if (errorBody.message) {
@@ -113,7 +141,8 @@ export async function githubFetch<T>(options: FetchOptions): Promise<T> {
     } catch {
       // Ignore JSON parse errors
     }
-    throw new DevTrackrNetworkError(errorMessage);
+
+    throw new DevTrackrNetworkError(errorMessage, errorCode, retryable);
   }
 
   // Parse JSON response
@@ -121,7 +150,11 @@ export async function githubFetch<T>(options: FetchOptions): Promise<T> {
     const data = await response.json();
     return data as T;
   } catch (error) {
-    throw new DevTrackrNetworkError('Failed to parse GitHub API response');
+    throw new DevTrackrNetworkError(
+      'Failed to parse GitHub API response',
+      DevTrackrErrorCode.API_ERROR,
+      false // Parse errors are not retryable
+    );
   }
 }
 

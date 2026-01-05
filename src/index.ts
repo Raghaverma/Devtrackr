@@ -19,6 +19,8 @@ export type {
   ActivityTimelineOptions,
   DevTrackrConfig,
   DevTrackrInstance,
+  RetryConfig,
+  RateLimitInfo,
 } from './types';
 
 export {
@@ -26,5 +28,8 @@ export {
   DevTrackrAuthError,
   DevTrackrRateLimitError,
   DevTrackrNetworkError,
+  DevTrackrValidationError,
+  DevTrackrErrorCode,
+  type RetryInfo,
 } from './errors';
 

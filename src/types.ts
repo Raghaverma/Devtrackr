@@ -77,8 +77,23 @@ export interface ActivityTimelineOptions {
   days?: number;
 }
 
+export interface RateLimitInfo {
+  limit: number;
+  remaining: number;
+  resetAt: Date;
+  resetIn: number; // milliseconds until reset
+}
+
+export interface RetryConfig {
+  enabled?: boolean;
+  maxRetries?: number;
+  baseDelay?: number; // milliseconds
+  maxDelay?: number; // milliseconds
+}
+
 export interface DevTrackrConfig {
   token: string;
+  retry?: RetryConfig;
 }
 
 export interface DevTrackrInstance {
@@ -88,6 +103,7 @@ export interface DevTrackrInstance {
   getLanguageStats(username: string): Promise<LanguageStats>;
   getContributionStats(username: string): Promise<ContributionStats>;
   getActivityTimeline(username: string, options?: ActivityTimelineOptions): Promise<ActivityTimeline>;
+  getRateLimitInfo(): RateLimitInfo | null;
 }
 
 // Internal GitHub API response types
