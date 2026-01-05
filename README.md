@@ -1,20 +1,20 @@
-# DevTrackr SDK
+# DevTrackr
 
 [![CI](https://github.com/Raghaverma/Devtrackrnpm/actions/workflows/ci.yml/badge.svg)](https://github.com/Raghaverma/Devtrackrnpm/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/devtrackr.svg)](https://www.npmjs.com/package/devtrackr)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 
-Production-grade npm package for fetching and normalizing GitHub developer data. Built with TypeScript, fully typed, and ready for production use.
+A production-grade TypeScript SDK for extracting and normalizing GitHub developer signals.
 
 ## Features
 
-- ✅ **Type-Safe**: Full TypeScript support with exported types
-- ✅ **Tree-Shakeable**: Zero side effects, optimized bundle size
-- ✅ **Normalized Data**: UI-ready JSON responses, no raw GitHub API responses
-- ✅ **Error Handling**: Typed errors with rate limit information
-- ✅ **Zero Dependencies**: Uses native fetch only
-- ✅ **Dual Format**: ESM and CommonJS support
+- **Type-Safe**: Full TypeScript support with exported types
+- **Tree-Shakeable**: Zero side effects, optimized bundle size
+- **Normalized Data**: UI-ready JSON responses, no raw GitHub API responses
+- **Error Handling**: Typed errors with rate limit information
+- **Zero Dependencies**: Uses native fetch only
+- **Dual Format**: ESM and CommonJS support
 
 ## Installation
 
@@ -260,7 +260,7 @@ DevTrackr requires a GitHub Personal Access Token (PAT) to authenticate with the
 
 ### Token Security
 
-⚠️ **Never commit tokens to version control!** Use environment variables:
+**Warning: Never commit tokens to version control!** Use environment variables:
 
 ```typescript
 import { createDevTrackr } from 'devtrackr';

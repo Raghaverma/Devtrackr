@@ -21,12 +21,12 @@ async function test() {
   const devtrackr = createDevTrackr({ token });
 
   try {
-    console.log('Testing DevTrackr SDK...\n');
+    console.log('Testing DevTrackr...\n');
 
     // Test profile
     console.log('1. Testing getProfile...');
     const profile = await devtrackr.getProfile('octocat');
-    console.log('✅ Profile:', {
+    console.log('Profile:', {
       username: profile.username,
       name: profile.name,
       followers: profile.followers,
@@ -36,12 +36,12 @@ async function test() {
     // Test repositories
     console.log('\n2. Testing getRepositories...');
     const repos = await devtrackr.getRepositories('octocat', { perPage: 3 });
-    console.log(`✅ Repositories (${repos.length}):`, repos.map(r => r.name));
+    console.log(`Repositories (${repos.length}):`, repos.map(r => r.name));
 
     // Test commits
     console.log('\n3. Testing getRecentCommits...');
     const commits = await devtrackr.getRecentCommits('octocat', { perPage: 3 });
-    console.log(`✅ Commits (${commits.length}):`, commits.map(c => ({
+    console.log(`Commits (${commits.length}):`, commits.map(c => ({
       repo: c.repo,
       message: c.message.substring(0, 50),
     })));
@@ -49,13 +49,13 @@ async function test() {
     // Test language stats
     console.log('\n4. Testing getLanguageStats...');
     const languages = await devtrackr.getLanguageStats('octocat');
-    console.log(`✅ Languages (${languages.languages.length}):`, 
+    console.log(`Languages (${languages.languages.length}):`, 
       languages.languages.slice(0, 5).map(l => `${l.name}: ${l.percentage.toFixed(1)}%`));
 
     // Test contribution stats
     console.log('\n5. Testing getContributionStats...');
     const contributions = await devtrackr.getContributionStats('octocat');
-    console.log('✅ Contribution Stats:', {
+    console.log('Contribution Stats:', {
       totalCommits: contributions.totalCommits,
       activeDays: contributions.activeDays,
       avgCommitsPerWeek: contributions.avgCommitsPerWeek,
@@ -69,17 +69,17 @@ async function test() {
     const recentActivity = timeline
       .filter(item => item.commits > 0)
       .slice(-5);
-    console.log(`✅ Activity Timeline (last 5 active days):`, recentActivity);
+    console.log(`Activity Timeline (last 5 active days):`, recentActivity);
 
-    console.log('\n✅ All tests passed!');
+    console.log('\nAll tests passed!');
   } catch (error) {
     if (error instanceof DevTrackrRateLimitError) {
-      console.error('❌ Rate limit exceeded:');
+      console.error('Rate limit exceeded:');
       console.error(`   Limit: ${error.limit}`);
       console.error(`   Remaining: ${error.remaining}`);
       console.error(`   Resets at: ${error.resetAt.toISOString()}`);
     } else {
-      console.error('❌ Error:', error);
+      console.error('Error:', error);
     }
     process.exit(1);
   }

@@ -78,9 +78,10 @@ export function calculateContributionStats(
   // Calculate current streak (from today backwards)
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  let currentDate = new Date(today);
+  const currentDate = new Date(today);
   let streakCount = 0;
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const dateStr = currentDate.toISOString().split('T')[0];
     if (commitsByDate.has(dateStr)) {

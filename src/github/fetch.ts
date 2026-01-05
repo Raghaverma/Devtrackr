@@ -130,8 +130,8 @@ export async function githubFetch<T>(options: FetchOptions): Promise<T> {
   // Handle other errors
   if (!response.ok) {
     let errorMessage = `GitHub API error: ${response.status} ${response.statusText}`;
-    let errorCode = DevTrackrErrorCode.API_ERROR;
-    let retryable = response.status >= 500; // Retry on server errors
+    const errorCode = DevTrackrErrorCode.API_ERROR;
+    const retryable = response.status >= 500; // Retry on server errors
 
     try {
       const errorBody = await response.json() as { message?: string };

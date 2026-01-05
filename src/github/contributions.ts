@@ -11,7 +11,7 @@ import { GitHubContributions } from '../types';
  * Fetch contribution statistics using GraphQL API
  * This is an experimental feature as GraphQL API may change
  */
-export async function fetchUserContributions(
+export function fetchUserContributions(
   _token: string,
   _username: string
 ): Promise<GitHubContributions> {
@@ -23,22 +23,30 @@ export async function fetchUserContributions(
   // In a real implementation, you'd parse the contribution graph HTML
   // or use the GraphQL API with preview headers
   
-  return {
+  return Promise.resolve({
     totalContributions: 0,
     weeks: [],
-  };
+  });
 }
 
 /**
  * Calculate contributions from commit events
  * This is a fallback when GraphQL API is not available
  */
+interface GitHubEvent {
+  type: string;
+  created_at?: string;
+  payload?: {
+    commits?: unknown[];
+  };
+}
+
 export async function calculateContributionsFromEvents(
   token: string,
   username: string
 ): Promise<Map<string, number>> {
   // Fetch user events
-  const events = await githubFetch<any[]>({
+  const events = await githubFetch<GitHubEvent[]>({
     token,
     endpoint: `/users/${username}/events/public?per_page=100`,
   });

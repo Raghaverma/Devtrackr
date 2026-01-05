@@ -365,22 +365,22 @@ expect(error.resetAt.getTime()).toBe(1234567890 * 1000);
 **Type Check:**
 - Command: `npm run type-check`
 - Output: No TypeScript errors
-- Status: ✅ Passes
+- Status: PASSES
 
 **Tests:**
 - Command: `npm test -- --run`
 - Output: All tests pass
-- Status: ✅ Passes
+- Status: PASSES
 
 **Build:**
 - Command: `npm run build`
 - Output: `dist/` directory created with all outputs
-- Status: ✅ Passes
+- Status: PASSES
 
 **Manual Test:**
 - Command: `npx tsx test-manual.ts` (with GITHUB_TOKEN set)
 - Output: All methods execute successfully
-- Status: ✅ Passes (when token provided)
+- Status: PASSES (when token provided)
 
 **Status:** Verified. All verification steps pass.
 
@@ -390,15 +390,15 @@ expect(error.resetAt.getTime()).toBe(1234567890 * 1000);
 
 This document provides verifiable evidence for all specification requirements:
 
-1. ✅ Public API boundary enforced
-2. ✅ Tree-shakeability proven with evidence
-3. ✅ Rate-limit handling verified with test artifacts
-4. ✅ Contribution semantics documented
-5. ✅ SemVer policy defined
-6. ✅ Testing integrity verified
-7. ✅ Packaging verified
-8. ✅ Manual verification path correct
-9. ✅ Preview API handling documented
-10. ✅ Build and tests pass
+1. Public API boundary enforced
+2. Tree-shakeability proven with evidence
+3. Rate-limit handling verified with test artifacts
+4. Contribution semantics documented
+5. SemVer policy defined
+6. Testing integrity verified
+7. Packaging verified
+8. Manual verification path correct
+9. Preview API handling documented
+10. Build and tests pass
 
 All claims are supported by test files, fixtures, build outputs, or source code references. A third-party reviewer can verify compliance without reading implementation source code.

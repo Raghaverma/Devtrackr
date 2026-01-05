@@ -23,7 +23,7 @@ async function monitorRateLimits() {
       console.log(`Rate Limit: ${info.remaining}/${info.limit} (${percentage.toFixed(1)}%)`);
       
       if (percentage < 10) {
-        console.warn('⚠️  Rate limit is low!');
+        console.warn('Warning: Rate limit is low!');
       }
       
       if (info.resetIn > 0) {

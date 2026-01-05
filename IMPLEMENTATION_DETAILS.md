@@ -516,14 +516,14 @@
 
 ## What Makes This Production-Ready
 
-✅ **Type Safety:** Full TypeScript coverage
-✅ **Error Handling:** Typed errors with proper details
-✅ **Testing:** Unit + integration tests
-✅ **Documentation:** README with examples
-✅ **Build System:** Dual ESM/CJS output
-✅ **Tree-Shakeable:** No side effects
-✅ **Zero Dependencies:** Native fetch only
-✅ **Spec Compliance:** Matches specification exactly
+- **Type Safety:** Full TypeScript coverage
+- **Error Handling:** Typed errors with proper details
+- **Testing:** Unit + integration tests
+- **Documentation:** README with examples
+- **Build System:** Dual ESM/CJS output
+- **Tree-Shakeable:** No side effects
+- **Zero Dependencies:** Native fetch only
+- **Spec Compliance:** Matches specification exactly
 
 ---
 
