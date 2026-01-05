@@ -3,8 +3,9 @@
  * Creates a DevTrackr instance with all required methods
  */
 
-import { DevTrackrConfig, DevTrackrInstance } from './types';
+import { DevTrackrConfig, DevTrackrInstance, RateLimitInfo } from './types';
 import { DevTrackrValidationError } from './errors';
+import { getRateLimitInfo } from './utils/rateLimit';
 import { fetchUser } from './github/user';
 import { fetchUserRepositories } from './github/repos';
 import { fetchUserCommits } from './github/commits';
@@ -153,6 +154,8 @@ export function createDevTrackr(config: DevTrackrConfig): DevTrackrInstance {
       const days = options?.days || 365;
       return createActivityTimeline(normalizedCommits, days);
     },
+    getRateLimitInfo(): RateLimitInfo | null {
+      return getRateLimitInfo();
+    },
   };
 }
-
